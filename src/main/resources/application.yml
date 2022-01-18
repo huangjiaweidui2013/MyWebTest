@@ -1,7 +1,23 @@
 server:
   port: 8765
+  tomcat:
+    uri-encoding: UTF-8
+  application:
+    name: demo
+  thymeleaf:
+    encoding: UTF-8
+    cache: true
+    mode: LEGACYHTML5
+  devtools:
+    restart:
+      enabled: true
+debug: false
 
 spring:
+  servlet:
+    multipart:
+      max-file-size: 5000MB
+      max-request-size: 5000MB
   #开发环境数据库
   datasource:
     url: jdbc:mysql://localhost:3306/my_test?useSSL=false&useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai&nullCatalogMeansCurrent=true
