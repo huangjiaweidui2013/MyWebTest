@@ -1,27 +1,57 @@
 package com.huang.learn.controller;
 
+import com.huang.learn.entity.Progress;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author: huang lang
  * @description: 文件接口
  * @date: 2022/1/14 8:49
  */
-@RestController
+@Controller
 @Slf4j
 public class FileController {
+    private HttpSession session;
+    private static final String PROGRESS = "progress";
 
+    /**
+     * 先调用这个方法获取session，才能实现真实的上传进度条  http://localhost:8765/upload
+     *
+     * @param request
+     * @return
+     */
+    @GetMapping("/upload")
+    public String index(HttpServletRequest request) {
+        session = request.getSession();
+        return "redirect:upload_real_lay_ui.html";
+    }
+
+
+    /**
+     * 先获取session，才能实现真实的上传进度条  http://localhost:8765/upload
+     *
+     * @param file
+     * @return
+     */
     @PostMapping("/upload")
-    public String uploadFile(@RequestParam("file") MultipartFile file) {
+    @ResponseBody
+    public Map<String, Object> uploadFile(@RequestParam("file") MultipartFile file) {
+        Map<String, Object> map = new HashMap<>();
         if (file.isEmpty()) {
-            return "文件为空";
+            return map;
         }
         // 获取文件名
         String fileName = file.getOriginalFilename();
@@ -41,12 +71,26 @@ public class FileController {
         }
         try {
             file.transferTo(dest);
-        } catch (IllegalStateException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
+            map.put("data", "success");
+            return map;
+        } catch (IllegalStateException | IOException e) {
             e.printStackTrace();
         }
-        return fileName + "上传失败";
+        return map;
+    }
+
+    @PostMapping("/progress")
+    @ResponseBody
+    public Progress progress(HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        Progress progress = (Progress) session.getAttribute(PROGRESS);
+        if (progress == null) {
+            progress = new Progress();
+            progress.setBytesRead(0L);
+            progress.setContentLength(1L);
+            progress.setItems(1);
+        }
+        return progress;
     }
 
 }

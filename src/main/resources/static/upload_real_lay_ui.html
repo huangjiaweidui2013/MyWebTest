@@ -1,0 +1,37 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>File Upload</title>
+    <link rel="stylesheet" href="https://www.layuicdn.com/layui-v2.6.8/css/layui.css"/>
+</head>
+<body>
+<div class="layui-container">
+    <div class="layui-row">
+        <div class="layui-col-xs4 layui-col-sm7 layui-col-md8">
+            <div class="grid-demo layui-bg-green">|</div>
+            <br/>
+            <blockquote class="layui-elem-quote">Upload</blockquote>
+            <div class="layui-upload-drag" id="test10">
+                <i class="layui-icon"></i>
+                <p>点击上传，或将文件拖拽到此处</p>
+                <div class="layui-hide" id="uploadDemoView">
+                    <hr>
+                    <img src="" alt="上传成功" style="max-width: 196px">
+                </div>
+                <br/>
+                <!--            进度条-->
+                <div class="layui-progress layui-progress-big" lay-showpercent="true" lay-filter="demo">
+                    <div id="progress" class="layui-progress-bar layui-bg-red" lay-percent="0%"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br/>
+    <button type="button" class="layui-btn" id="testListAction">click to submit</button>
+</div>
+
+</body>
+<script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://www.layuicdn.com/layui-v2.6.8/layui.js"></script>
+<script src="upload_real_lay_ui.js"></script>
+</html>
