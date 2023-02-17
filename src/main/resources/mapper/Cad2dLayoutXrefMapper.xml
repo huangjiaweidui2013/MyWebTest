@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.huang.learn.mapper.Cad2dLayoutXrefMapper">
+
+    <resultMap type="com.huang.learn.domain.Cad2dLayoutXref" id="Cad2dLayoutXrefResult">
+        <result property="docId" column="doc_id"/>
+        <result property="handleId" column="handle_id"/>
+        <result property="xrefIds" column="xref_ids"/>
+        <result property="refLmfFileId" column="ref_lmf_file_id"/>
+        <result property="createBy" column="create_by"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateBy" column="update_by"/>
+        <result property="updateTime" column="update_time"/>
+    </resultMap>
+
+    <sql id="selectCad2dLayoutXrefVo">
+        select doc_id, handle_id, xref_ids, ref_lmf_file_id, create_by, create_time, update_by, update_time from
+        cad_2d_layout_xref
+    </sql>
+
+    <select id="selectCad2dLayoutXrefList" parameterType="com.huang.learn.domain.Cad2dLayoutXref"
+            resultMap="Cad2dLayoutXrefResult">
+        <include refid="selectCad2dLayoutXrefVo"/>
+        <where>
+            <if test="xrefIds != null  and xrefIds != ''">and xref_ids = #{xrefIds}</if>
+            <if test="refLmfFileId != null ">and ref_lmf_file_id = #{refLmfFileId}</if>
+        </where>
+    </select>
+
+    <select id="selectCad2dLayoutXrefByDocId" parameterType="Long" resultMap="Cad2dLayoutXrefResult">
+        <include refid="selectCad2dLayoutXrefVo"/>
+        where doc_id = #{docId}
+    </select>
+
+    <insert id="insertCad2dLayoutXref" parameterType="com.huang.learn.domain.Cad2dLayoutXref">
+        insert into cad_2d_layout_xref
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="docId != null">doc_id,</if>
+            <if test="handleId != null">handle_id,</if>
+            <if test="xrefIds != null and xrefIds != ''">xref_ids,</if>
+            <if test="refLmfFileId != null">ref_lmf_file_id,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="docId != null">#{docId},</if>
+            <if test="handleId != null">#{handleId},</if>
+            <if test="xrefIds != null and xrefIds != ''">#{xrefIds},</if>
+            <if test="refLmfFileId != null">#{refLmfFileId},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+        </trim>
+    </insert>
+
+    <update id="updateCad2dLayoutXref" parameterType="com.huang.learn.domain.Cad2dLayoutXref">
+        update cad_2d_layout_xref
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="handleId != null">handle_id = #{handleId},</if>
+            <if test="xrefIds != null and xrefIds != ''">xref_ids = #{xrefIds},</if>
+            <if test="refLmfFileId != null">ref_lmf_file_id = #{refLmfFileId},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+        </trim>
+        where doc_id = #{docId}
+    </update>
+
+    <delete id="deleteCad2dLayoutXrefByDocId" parameterType="Long">
+        delete from cad_2d_layout_xref where doc_id = #{docId}
+    </delete>
+
+    <delete id="deleteCad2dLayoutXrefByDocIds" parameterType="String">
+        delete from cad_2d_layout_xref where doc_id in
+        <foreach item="docId" collection="array" open="(" separator="," close=")">
+            #{docId}
+        </foreach>
+    </delete>
+</mapper>

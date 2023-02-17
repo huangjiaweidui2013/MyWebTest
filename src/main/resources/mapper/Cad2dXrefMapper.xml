@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.huang.learn.mapper.Cad2dXrefMapper">
+
+    <resultMap type="com.huang.learn.domain.Cad2dXref" id="Cad2dXrefResult">
+        <result property="docId" column="doc_id"/>
+        <result property="xrefHandleId" column="xref_handle_id"/>
+        <result property="refPath" column="ref_path"/>
+        <result property="refDocId" column="ref_doc_id"/>
+        <result property="status" column="status"/>
+        <result property="createBy" column="create_by"/>
+        <result property="createTime" column="create_time"/>
+    </resultMap>
+
+    <sql id="selectCad2dXrefVo">
+        select doc_id, xref_handle_id, ref_path, ref_doc_id, status, create_by, create_time from cad_2d_xref
+    </sql>
+
+    <select id="selectCad2dXrefList" parameterType="com.huang.learn.domain.Cad2dXref" resultMap="Cad2dXrefResult">
+        <include refid="selectCad2dXrefVo"/>
+        <where>
+            <if test="refPath != null  and refPath != ''">and ref_path = #{refPath}</if>
+            <if test="refDocId != null ">and ref_doc_id = #{refDocId}</if>
+            <if test="status != null ">and status = #{status}</if>
+        </where>
+    </select>
+
+    <select id="selectCad2dXrefByDocId" parameterType="Long" resultMap="Cad2dXrefResult">
+        <include refid="selectCad2dXrefVo"/>
+        where doc_id = #{docId}
+    </select>
+
+    <insert id="insertCad2dXref" parameterType="com.huang.learn.domain.Cad2dXref">
+        insert into cad_2d_xref
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="docId != null">doc_id,</if>
+            <if test="xrefHandleId != null">xref_handle_id,</if>
+            <if test="refPath != null and refPath != ''">ref_path,</if>
+            <if test="refDocId != null">ref_doc_id,</if>
+            <if test="status != null">status,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="docId != null">#{docId},</if>
+            <if test="xrefHandleId != null">#{xrefHandleId},</if>
+            <if test="refPath != null and refPath != ''">#{refPath},</if>
+            <if test="refDocId != null">#{refDocId},</if>
+            <if test="status != null">#{status},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+        </trim>
+    </insert>
+
+    <update id="updateCad2dXref" parameterType="com.huang.learn.domain.Cad2dXref">
+        update cad_2d_xref
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="xrefHandleId != null">xref_handle_id = #{xrefHandleId},</if>
+            <if test="refPath != null and refPath != ''">ref_path = #{refPath},</if>
+            <if test="refDocId != null">ref_doc_id = #{refDocId},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+        </trim>
+        where doc_id = #{docId}
+    </update>
+
+    <delete id="deleteCad2dXrefByDocId" parameterType="Long">
+        delete from cad_2d_xref where doc_id = #{docId}
+    </delete>
+
+    <delete id="deleteCad2dXrefByDocIds" parameterType="String">
+        delete from cad_2d_xref where doc_id in
+        <foreach item="docId" collection="array" open="(" separator="," close=")">
+            #{docId}
+        </foreach>
+    </delete>
+</mapper>

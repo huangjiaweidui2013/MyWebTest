@@ -24,8 +24,8 @@
             }
             //完成回调
             ,done: function(res){
-                layer.msg(res.code);
-                if (res.code){
+                layer.msg(res.data);
+                if (res.data){
                     layui.$('#uploadDemoView').removeClass('layui-hide').attr('src');
                 }
                 element.progress('demo','100%');

@@ -5,6 +5,7 @@ server:
   application:
     name: demo
   thymeleaf:
+    #    prefix: classpath:/templates/
     encoding: UTF-8
     cache: true
     mode: LEGACYHTML5
@@ -13,6 +14,47 @@ server:
       enabled: true
 debug: false
 
+# @ConfigurationProperties(prefix = "sbs.property.test") 的方式获取配置
+sbs:
+  property:
+    test:
+      name: huang
+      age: 15
+      address: Wuhan
+      service_map: { serviceHost: 192.168.51.171,servicePort: 8080,name: service }
+      objMap:
+        obj1: 1
+        obj2: 2
+        obj3: 3
+      paramArray1:
+        - 100
+        - 200
+        - 300
+      paramArray2: 111,222,333
+      paramList1:
+        - 999
+        - 888
+        - 777
+      paramList2: 101,102,103
+      # yml 中生成随机 int（可以设置上限）、long（可以设置上限）、字符串、uuid
+      worker_id: ${random.int(1,31)}
+      randomLong: ${random.long}
+      randomStr: ${random.value}
+      randomUuid: ${random.uuid}
+      cron: "0 0 0/5 * * ? "
+
+my:
+  web:
+    test:
+      # @Value 配置map的正确的写法，必须有双引号和单引号。java 读取配置方式： @Value("#{${my.web.test.strMap}}")
+      strMap: "{key1: 'value1', key2: 'value2', key3: 'value3'}"
+      intMap: "{1: 1,2: 4,3: 9}"
+      # @Value 配置map的方式不能使用下面这种写法
+#      objMap:
+#        - "obj1": "1"
+#        - "obj2": "2"
+#        - "obj3": "3"
+
 spring:
   servlet:
     multipart:
@@ -20,6 +62,39 @@ spring:
       max-request-size: 5000MB
   #开发环境数据库
   datasource:
-    url: jdbc:mysql://localhost:3306/my_test?useSSL=false&useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai&nullCatalogMeansCurrent=true
-    username: root
-    password: 123456
+    url: jdbc:mysql://192.168.56.171:3306/sys?useSSL=false&useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai&nullCatalogMeansCurrent=true
+    username: zwcad
+    password: Zwcad@)@!
+  data:
+    mongodb:
+      #      uri: mongodb://192.168.62.186:27017/my_test
+      uri: mongodb://192.168.56.175:27017/my_test
+  mail:
+    default-encoding: UTF-8
+    host: smtp.exmail.qq.com
+    port: 465
+    protocol: smtp
+    username: huanglang@zwcad.com
+    # 配置用户的密码（即上面我们申请到的授权码）
+    password: 5Xq4YWqKYrso5fod
+    properties: { mail.smtp.socketFactory.class: javax.net.ssl.SSLSocketFactory , mail.debug: true }
+
+
+
+
+
+# mybatis配置
+mybatis:
+  # 搜索指定包别名
+  #typeAliasesPackage: com.zwcad.system
+  # 配置mapper的扫描，找到所有的mapper.xml映射文件
+  mapperLocations: classpath:mapper/**/*.xml
+  configuration:
+    default-enum-type-handler: org.apache.ibatis.type.EnumOrdinalTypeHandler
+
+mybatis-plus:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+
+

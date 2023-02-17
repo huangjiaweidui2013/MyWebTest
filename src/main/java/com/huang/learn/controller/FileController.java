@@ -25,6 +25,7 @@ import java.util.Map;
 @Slf4j
 public class FileController {
     private HttpSession session;
+
     private static final String PROGRESS = "progress";
 
     /**
@@ -49,6 +50,7 @@ public class FileController {
     @PostMapping("/upload")
     @ResponseBody
     public Map<String, Object> uploadFile(@RequestParam("file") MultipartFile file) {
+
         Map<String, Object> map = new HashMap<>();
         if (file.isEmpty()) {
             return map;
