@@ -73,10 +73,10 @@ spring:
     default-encoding: UTF-8
     host: smtp.exmail.qq.com
     port: 465
-    protocol: smtp
-    username: huanglang@zwcad.com
+    protocol:
+    username:
     # 配置用户的密码（即上面我们申请到的授权码）
-    password: 5Xq4YWqKYrso5fod
+    password:
     properties: { mail.smtp.socketFactory.class: javax.net.ssl.SSLSocketFactory , mail.debug: true }
 
 
