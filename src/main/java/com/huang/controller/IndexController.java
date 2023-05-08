@@ -15,6 +15,6 @@ public class IndexController {
 
     @GetMapping("/html")
     public String index(){
-        return "index.html";
+        return "issue_alert.html";
     }
 }
