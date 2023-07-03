@@ -1,8 +1,10 @@
 package com.huang.learn.demo;
 
+import cn.hutool.core.io.FileUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FilenameUtils;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,6 +19,10 @@ public class OtherTest {
         String name = FilenameUtils.getName("..\\..\\综合图纸\\5819-copy.dwg");
         log.info("name: {}", name);
 
+    }
+
+    public static void listFiles(String path){
+        FileUtil.loopFiles(path, File::isDirectory);
     }
 
     public static void listRetainAll() {
